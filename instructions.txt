@@ -1,0 +1,21 @@
+NAVIGATE INTO FINALDOCKER FOLDER AND RUN
+docker compose up --build
+
+OPEN A NEW TERMINAL AND NAVIGATE INTO THE BACK FOLDER AND RUN
+docker exec finallara php artisan migrate
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

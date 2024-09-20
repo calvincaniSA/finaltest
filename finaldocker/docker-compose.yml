@@ -1,0 +1,59 @@
+services:
+  apache:
+    image: httpd:latest
+    container_name: finalapache
+    ports:
+      - "8080:80"
+    volumes:
+      - ../back:/var/www/html
+      - ./apache-config:/usr/local/apache2/conf
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: finalpma
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: cal
+      PMA_PASSWORD: lekker1
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    container_name: finalsql
+    environment:
+      MYSQL_ROOT_PASSWORD: lekker1
+      MYSQL_DATABASE: finaltest
+      MYSQL_USER: cal
+      MYSQL_PASSWORD: lekker1
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  laravel:
+    build:
+      context: ../back
+    container_name: finallara
+    volumes:
+      - ../back:/var/www
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+
+  nuxt:
+    build:
+      context: ../front
+    container_name: finalnuxt
+    volumes:
+      - ../front:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - laravel
+
+volumes:
+  db_data:
